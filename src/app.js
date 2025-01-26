@@ -5,7 +5,8 @@ const User = require("./models/users");
 const { validateSignUp } = require("./utils/validate");
 const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const { authUser } = require("./middleware/auth");
 
 app.use(express.json());
 app.use(cookieParser())
@@ -52,9 +53,9 @@ app.post("/login", async (req,res)=>{
     if(isPasswordValid){
 
       // creating a jwt token , on valid password
-      const token = jwt.sign( {_id : user._id},"DevTinder@9709")
+      const token = jwt.sign( {_id : user._id },"DevTinder@9709")
       if(token){
-        res.cookie("token",token)
+        res.cookie("token",token , { expires : new Date(Date.now() + 8 * 3600000) })
       }
       res.send("Login Successfull")
     }
@@ -138,7 +139,7 @@ app.get("/profile" , async (req,res)=>{
     if(!token){
       throw new Error("Invalid token")
     }
-    const decryptId = jwt.decode(token)
+    const decryptId = jwt.decode(token,"DevTinder@9709")
     const user = await User.findOne({_id:decryptId})
 
     if(!user){
@@ -148,6 +149,15 @@ app.get("/profile" , async (req,res)=>{
   }
   catch(err){
     res.status(400).send(err.message)
+  }
+})
+
+app.get("/sendConnectionRequest", authUser ,(req,res)=>{
+  try{
+    res.send(req.user);
+  }
+  catch(err){
+    res.status(400).send("User not found");
   }
 })
 

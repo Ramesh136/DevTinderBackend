@@ -1,10 +1,28 @@
-const authUser = (req,res,next)=>{
-  if(req.query.token === 'x9x9'){
-    next()
+const jwt = require("jsonwebtoken");
+const User = require("../models/users");
+
+const authUser = async (req , res , next)=>{
+  try{
+
+    const {token} = req.cookies ;
+    if(!token){
+      throw new Error("Invalid Token");
+    }
+
+    const deccryptObj = jwt.decode(token , "DevTinder@9709");
+    const { _id } = deccryptObj;
+
+    const user = await User.findById(_id);
+    if(!user){
+      throw new Error("User not found");
+    }
+    req.user = user ;
+    next();
   }
-  else{
-    res.status(401).send("Please Login")
-  }
+  catch(err){
+    res.status(400).send("Error : "+err.message);
+  } 
+
 }
 
 module.exports = { authUser}
