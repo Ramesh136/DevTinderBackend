@@ -25,4 +25,4 @@ const authUser = async (req , res , next)=>{
 
 }
 
-module.exports = { authUser}
+module.exports = { authUser }
