@@ -5,6 +5,7 @@ const User = require("./models/users");
 const { validateSignUp } = require("./utils/validate");
 const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken")
 
 app.use(express.json());
 app.use(cookieParser())
@@ -49,6 +50,12 @@ app.post("/login", async (req,res)=>{
     const isPasswordValid = await bcrypt.compare( password , user.password);
   
     if(isPasswordValid){
+
+      // creating a jwt token , on valid password
+      const token = jwt.sign( {_id : user._id},"DevTinder@9709")
+      if(token){
+        res.cookie("token",token)
+      }
       res.send("Login Successfull")
     }
     else{
@@ -119,6 +126,28 @@ app.get("/users",async (req,res)=>{
   }
   catch(err){
     res.status(404).send("User not found")
+  }
+})
+
+app.get("/profile" , async (req,res)=>{
+
+  try{
+    const cookie = req.cookies ;
+    const { token } = cookie ;
+  
+    if(!token){
+      throw new Error("Invalid token")
+    }
+    const decryptId = jwt.decode(token)
+    const user = await User.findOne({_id:decryptId})
+
+    if(!user){
+      throw new Error("User not found")
+    }
+    res.send(user)
+  }
+  catch(err){
+    res.status(400).send(err.message)
   }
 })
 
