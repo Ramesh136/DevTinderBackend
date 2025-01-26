@@ -48,12 +48,11 @@ app.post("/login", async (req,res)=>{
     if(!user){
       throw new Error("Invalid Credentials");
     }
-    const isPasswordValid = await bcrypt.compare( password , user.password);
+    const isPasswordValid = await user.validatePassword(password);
   
     if(isPasswordValid){
-
       // creating a jwt token , on valid password
-      const token = jwt.sign( {_id : user._id },"DevTinder@9709")
+      const token = await user.getJWT();
       if(token){
         res.cookie("token",token , { expires : new Date(Date.now() + 8 * 3600000) })
       }
