@@ -53,6 +53,4 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
   }
 })
 
-
-
 module.exports = requestRouter ;
