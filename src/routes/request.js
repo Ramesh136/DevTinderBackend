@@ -10,6 +10,7 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
     const status = req.params?.status;
     const vaildStatus = ["interested","ignored"];
 
+    // Status validation
     if(!vaildStatus.includes(status)){
       throw new Error("Invalid request type")
     }
@@ -18,6 +19,7 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
     const fromId = fromUser._id;
     const toUser = await User.findById(toId);
 
+    // target userId validation
     if(!toUser){
       throw new Error("Invalid user request");
     }
@@ -39,6 +41,7 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
       throw new Error("Connection already exists");
     }
 
+
     await connectionRequest.save();
 
     const message = status === "interested" ? `${fromUser.firstName} is interested in ${toUser.firstName}` : `${fromUser.firstName} is not interested in ${toUser.firstName}`;
@@ -50,6 +53,50 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
   }
   catch(err){
     res.status(400).json({message:err.message});
+  }
+})
+
+requestRouter.post("/review/:status/:requestId" , authUser , async (req,res)=>{
+
+  try{
+    const currentUser = req.user;
+    const { status , requestId } = req?.params;
+
+    const allowedStatus = ["accepted" , "rejected"];
+    if(!allowedStatus.includes(status)){
+      throw new Error("Invalid Status , status not acceptable");
+    }
+
+    const requestedConnection = await ConnectionRequest.findOne({
+      _id:requestId,
+      toId:currentUser._id,
+      status: "interested"
+    }).populate("fromId","firstName lastName")
+
+    if(!requestedConnection){
+      throw new Error("Invalid request");
+    }
+
+    requestedConnection.status = status ;
+    await requestedConnection.save();
+
+    let message
+
+    if(status === "accepted"){
+      message = `You are now connected with ${requestedConnection.fromId.firstName} ${requestedConnection.fromId.lastName}`;
+    }
+    else{
+      message = `You have rejected ${requestedConnection.fromId.firstName} ${requestedConnection.fromId.lastName}`;
+    }
+
+    res.json({
+      data : message
+    })
+  }
+  catch(err){
+    res.status(400).json({
+      message: err.message
+    })
   }
 })
 

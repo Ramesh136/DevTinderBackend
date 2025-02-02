@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const connectionRequestSchema = mongoose.Schema({
   fromId : {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   },
   toId : {
     type: mongoose.Schema.Types.ObjectId,
+    ref:"User"
   },
-  stats : {
+  status : {
     type: String,
     enum : {
       values : ["interested","accepted" , "rejected" , "ignored"],
