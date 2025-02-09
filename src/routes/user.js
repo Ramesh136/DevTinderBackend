@@ -16,18 +16,21 @@ userRouter.get("/user/requests/recieved", authUser , async (req , res) => {
       status: "interested"
     }).populate("fromId",USER_INFO_FIELDS)
 
-    if(requests.length === 0){
-      return res.json({
-        data : "No active requests"
-      })
-    }
+    // if(requests.length === 0){
+    //   return res.json({
+    //     data : "No active requests"
+    //   })
+    // }
 
     const responseData = requests.map((user)=>{
       return {
         requestId : user._id,
+        id : user.fromId._id,
         firstName : user.fromId.firstName,
         lastName : user.fromId.lastName,
+        about : user.fromId.about,
         age: user.fromId.age,
+        gender : user.fromId.gender,
         skills : user.fromId.skills,
         photoUrl : user.fromId.photoUrl
       }
@@ -60,31 +63,37 @@ userRouter.get("/user/connections" , authUser , async (req,res)=>{
     }).populate("fromId",USER_INFO_FIELDS)
     .populate("toId",USER_INFO_FIELDS)
 
-    if(connections.length === 0){
-      return res.json({
-        data : {
-          connections : "No available connections"
-        }
-      })
-    }
+    // if(connections.length === 0){
+    //   return res.json({
+    //     data : {
+    //       connections : "No available connections"
+    //     }
+    //   })
+    // }
 
     const responseData = connections.map((connection)=>{
       if(connection.fromId._id.toString() === currentUser._id.toString()){
         return {
+          id : connection.toId._id,
           firstName : connection.toId.firstName,
           lastName : connection.toId.lastName,
           age: connection.toId.age,
+          gender : connection.toId.gender,
           skills : connection.toId.skills,
-          photoUrl : connection.toId.photoUrl
+          photoUrl : connection.toId.photoUrl,
+          about : connection.toId.about
         }
       }
       else{
         return {
+          id : connection.fromId._id,
           firstName : connection.fromId.firstName,
           lastName : connection.fromId.lastName,
           age: connection.fromId.age,
+          gender : connection.fromId.gender,
           skills : connection.fromId.skills,
-          photoUrl : connection.fromId.photoUrl
+          photoUrl : connection.fromId.photoUrl,
+          about : connection.fromId.about
         }
       }
     })
