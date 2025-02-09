@@ -54,8 +54,10 @@ authRouter.post("/login", async (req,res)=>{
             firstName : user.firstName,
             lastName : user.lastName,
             skills : user.skills,
-            photoUrl : user.photoUrl
-        }
+            photoUrl : user.photoUrl,
+            gender : user.gender,
+            age : user.age
+          }
       });
     }
     else{

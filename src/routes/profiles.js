@@ -5,12 +5,21 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const { authUser } = require("../middleware/auth");
-const { validateUpdateData , validateUpdatePasswordData } = require("../utils/validate")
+const { validateUpdateData , validateUpdatePasswordData } = require("../utils/validate");
 
 
 profileRouter.get("/profile/view" ,authUser , async (req,res)=>{
   try{
-    res.send(req.user);
+    res.json({
+      user : {
+        firstName : req.user.firstName,
+        lastName : req.user.lastName,
+        skills : req.user.skills,
+        photoUrl : req.user.photoUrl,
+        gender : req.user.gender,
+        age : req.user.age
+      }
+    });
   }
   catch(err){
     res.status(400).send("User not found");
@@ -32,13 +41,19 @@ profileRouter.delete("/profile/:userId", async (req,res)=>{
 profileRouter.patch("/profile",authUser, async (req,res)=>{
   const loggedInUser = req.user;
   try{
-    validateUpdateData(req)
+    validateUpdateData(req , res)
     Object.keys(req.body).forEach((key)=>loggedInUser[key] = req.body[key]);
     await loggedInUser.save()
-
     res.json({
       message : `${loggedInUser.firstName} , data updated succesfull`,
-      user : loggedInUser
+      user : {
+        firstName : loggedInUser.firstName,
+        lastName : loggedInUser.lastName,
+        skills : loggedInUser.skills,
+        photoUrl : loggedInUser.photoUrl,
+        gender : loggedInUser.gender,
+        age : loggedInUser.age
+      }
     })
   }
   catch(err){

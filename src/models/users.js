@@ -57,13 +57,13 @@ const userSchema = new mongoose.Schema({
   photoUrl: {
     type : String,
     default : "https://cdn.vectorstock.com/i/2000v/92/16/default-profile-picture-avatar-user-icon-vector-46389216.avif",
-    validate : {
-      validator : (value)=>{
-        if(!validator.isURL(value)){
-          throw new Error("Photo url is invalid =>"+value)
-        }
-      }
-    }
+    // validate : {
+    //   validator : (value)=>{
+    //     if(!validator.isURL(value)){
+    //       throw new Error("Photo url is invalid =>"+value)
+    //     }
+    //   }
+    // }
   },
   skills : {
     type : [String],

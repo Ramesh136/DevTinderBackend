@@ -20,20 +20,12 @@ const validateUpdateData = async (req)=>{
 
   const {firstName , lastName , emailId , age , gender } = req.body ;
   const UPDATES_ALLOWED = ["firstName","lastName","gender","age","skills","emailId","photoUrl"]
-  try{
-    const isUpdateAllowed = Object.keys(req.body).every((key)=>UPDATES_ALLOWED.includes(key))
-    if(!isUpdateAllowed){
-      throw new Error("Cant update these fields")
-    }
-    if(!firstName || !lastName){
-      throw new Error("Enter a valid name");
-    }
-    else if(!validator.isEmail(emailId)){
-      throw new Error("Enter a valid emial");
-    }
+  const isUpdateAllowed = Object.keys(req.body).every((key)=>UPDATES_ALLOWED.includes(key))
+  if(!isUpdateAllowed){
+    throw new Error("Cant update these fields")
   }
-  catch(err){
-    res.status(404).send(err.message)
+  if(!firstName || !lastName){
+    throw new Error("Enter a valid name");
   }
 }
 
