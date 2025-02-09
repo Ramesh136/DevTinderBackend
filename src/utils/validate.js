@@ -19,7 +19,7 @@ const validateSignUp = (req)=>{
 const validateUpdateData = async (req)=>{
 
   const {firstName , lastName , emailId , age , gender } = req.body ;
-  const UPDATES_ALLOWED = ["firstName","lastName","gender","age","skills","emailId","photoUrl"]
+  const UPDATES_ALLOWED = ["firstName","lastName","gender","age","skills","emailId","photoUrl","about"]
   const isUpdateAllowed = Object.keys(req.body).every((key)=>UPDATES_ALLOWED.includes(key))
   if(!isUpdateAllowed){
     throw new Error("Cant update these fields")
