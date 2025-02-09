@@ -4,7 +4,7 @@ const { authUser } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/users");
 
-const USER_INFO_FIELDS = "firstName lastName  age  gender skills photoUrl"
+const USER_INFO_FIELDS = "firstName lastName  age  gender skills photoUrl about"
 
 userRouter.get("/user/requests/recieved", authUser , async (req , res) => {
 
