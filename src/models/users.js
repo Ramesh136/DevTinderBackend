@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
   lastName : {
     type : String
   },
+  about : {
+    type : String,
+    default : "This is default about of an user"
+  },
   emailId : {
     type : String,
     required: true,

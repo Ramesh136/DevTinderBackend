@@ -17,7 +17,8 @@ profileRouter.get("/profile/view" ,authUser , async (req,res)=>{
         skills : req.user.skills,
         photoUrl : req.user.photoUrl,
         gender : req.user.gender,
-        age : req.user.age
+        age : req.user.age,
+        about : req.user.about
       }
     });
   }
@@ -52,7 +53,8 @@ profileRouter.patch("/profile",authUser, async (req,res)=>{
         skills : loggedInUser.skills,
         photoUrl : loggedInUser.photoUrl,
         gender : loggedInUser.gender,
-        age : loggedInUser.age
+        age : loggedInUser.age,
+        about : loggedInUser.about
       }
     })
   }
