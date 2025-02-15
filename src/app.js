@@ -8,6 +8,7 @@ const profileRouter = require('./routes/profiles');
 const requestRouter = require('./routes/request');
 const userRouter = require('./routes/user');
 const cors = require('cors');
+require('dotenv').config();
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -25,7 +26,7 @@ app.use("/",userRouter);
 connectDB()
 .then(()=>{
   console.log('DB connected successfully');
-  app.listen(9709,()=>{
+  app.listen(process.env.PORT,()=>{
     console.log('Server is listening');
   });
 })
