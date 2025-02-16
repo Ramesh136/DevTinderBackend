@@ -10,6 +10,8 @@ const userRouter = require('./routes/user');
 const cors = require('cors');
 require('dotenv').config();
 
+require("../src/utils/cronjob");
+
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
