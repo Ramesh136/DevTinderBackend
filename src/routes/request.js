@@ -48,7 +48,7 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
 
 
     const message = status === "interested" ? `${fromUser.firstName} is interested in ${toUser.firstName}` : `${fromUser.firstName} is not interested in ${toUser.firstName}`;
-    const response = await sendEmail.run(message , "Request/Reject Notification");
+    const response = await sendEmail.run(message , "Request Notification");
     console.log(response)
     res.json({
       message: message
@@ -93,6 +93,9 @@ requestRouter.post("/review/:status/:requestId" , authUser , async (req,res)=>{
     else{
       message = `You have rejected ${requestedConnection.fromId.firstName} ${requestedConnection.fromId.lastName}`;
     }
+
+    const response = await sendEmail.run(message , "Review Notification");
+    console.log(response)
 
     res.json({
       data : message
