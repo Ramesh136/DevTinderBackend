@@ -3,6 +3,8 @@ const requestRouter = express.Router();
 const { authUser } = require("../middleware/auth");
 const User = require("../models/users");
 const ConnectionRequest = require("../models/connectionRequest");
+require('dotenv').config();
+const sendEmail = require('../utils/sendEmail');
 
 requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
   try{
@@ -41,11 +43,13 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
       throw new Error("Connection already exists");
     }
 
-
+    
     await connectionRequest.save();
 
-    const message = status === "interested" ? `${fromUser.firstName} is interested in ${toUser.firstName}` : `${fromUser.firstName} is not interested in ${toUser.firstName}`;
 
+    const message = status === "interested" ? `${fromUser.firstName} is interested in ${toUser.firstName}` : `${fromUser.firstName} is not interested in ${toUser.firstName}`;
+    const response = await sendEmail.run(message , "Request/Reject Notification");
+    console.log(response)
     res.json({
       message: message
     });
@@ -53,6 +57,7 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
   }
   catch(err){
     res.status(400).json({message:err.message});
+    console.log(err)
   }
 })
 
