@@ -6,12 +6,14 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const { authUser } = require("../middleware/auth");
 const { validateUpdateData , validateUpdatePasswordData } = require("../utils/validate");
+const { id } = require("date-fns/locale");
 
 
 profileRouter.get("/profile/view" ,authUser , async (req,res)=>{
   try{
     res.json({
       user : {
+        id : req.user._id,
         firstName : req.user.firstName,
         lastName : req.user.lastName,
         skills : req.user.skills,
@@ -48,6 +50,7 @@ profileRouter.patch("/profile",authUser, async (req,res)=>{
     res.json({
       message : `${loggedInUser.firstName} , data updated succesfull`,
       user : {
+        id : loggedInUser._id,
         firstName : loggedInUser.firstName,
         lastName : loggedInUser.lastName,
         skills : loggedInUser.skills,

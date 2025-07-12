@@ -2,7 +2,8 @@ const express = require("express");
 const authRouter = express.Router();
 const User = require("../models/users");
 const { validateSignUp } = require("../utils/validate");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+const { id } = require("date-fns/locale");
 
 
 authRouter.post("/signup", async (req, res) => {
@@ -33,6 +34,7 @@ authRouter.post("/signup", async (req, res) => {
     }
     res.json({
       user: {
+        id: savedUser._id,
         firstName: savedUser.firstName,
         lastName: savedUser.lastName,
         skills: savedUser.skills,
@@ -66,6 +68,7 @@ authRouter.post("/login", async (req, res) => {
       }
       res.json({
         user: {
+          id : user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           skills: user.skills,
