@@ -12,7 +12,6 @@ const initializeSocket = (server) => {
 
   io.on("connection", (socket) => {
     console.log("New client connected", socket.id);
-    console.log("Socket initialized",io.engine.clientsCount);
 
     socket.on("joinRoom", ({ userId , targetUserId , userName}) => {
       let roomId = [userId, targetUserId].sort().join("_");
@@ -39,7 +38,7 @@ const initializeSocket = (server) => {
         })
 
         let response = await chat.save();
-        console.log("response",response);
+        // console.log("response",response);
         
       }
       else {
@@ -53,8 +52,7 @@ const initializeSocket = (server) => {
           }]
         })
         let savedChat = await chat.save();
-        console.log("savedChat",savedChat);
-        
+        // console.log("savedChat",savedChat);
       }
 
       io.to(roomId).emit("receiveMessage", { userId, targetUserId, message , userName });

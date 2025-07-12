@@ -24,7 +24,7 @@ chatRouter.get("/chat/:targetId", authUser , async (req , res) =>{
       }
     })
 
-    console.log("chats",chats);
+    // console.log("chats",chats);
     
 
     if(!chats){
