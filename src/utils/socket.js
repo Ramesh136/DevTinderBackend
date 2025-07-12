@@ -38,7 +38,7 @@ const initializeSocket = (server) => {
         })
 
         let response = await chat.save();
-        // console.log("response",response);
+        console.log("response",response);
         
       }
       else {
@@ -52,10 +52,10 @@ const initializeSocket = (server) => {
           }]
         })
         let savedChat = await chat.save();
-        // console.log("savedChat",savedChat);
+        console.log("savedChat",savedChat);
       }
 
-      io.to(roomId).emit("receiveMessage", { userId, targetUserId, message , userName });
+      io.to(roomId).emit("receiveMessage", { userId, targetUserId, message , userName , time : new Date() });
     });
 
     socket.on("disconnect", () => {
