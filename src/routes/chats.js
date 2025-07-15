@@ -11,8 +11,10 @@ chatRouter.get("/chat/:targetId", authUser , async (req , res) =>{
   let sender = req?.user ;
   let senderId = sender._id ;
 
-  let targetUser = await User.findById(targetId).select("firstName lastName photoUrl");
+  let targetUser
+
   try{
+    targetUser = await User.findById(targetId).select("firstName lastName photoUrl");
    
     if(!targetUser){
       throw new Error("Invalid target id");
