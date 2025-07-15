@@ -30,7 +30,7 @@ const initializeSocket = (server) => {
       })
 
       if(chat){
-        console.log("chat",chat);
+        // console.log("chat",chat);
         chat.messages.push({
           from:userId,
           to:targetUserId,
@@ -38,7 +38,7 @@ const initializeSocket = (server) => {
         })
 
         let response = await chat.save();
-        console.log("response",response);
+        // console.log("response",response);
         
       }
       else {
