@@ -21,14 +21,7 @@ const chatSchema = new mongoose.Schema({
   participants : [{
     type: mongoose.Types.ObjectId,
     required:true,
-    ref: "User",
-    validate : {
-      validator : (value)=>{
-        if(mongoose.isValidObjectId(value)){
-          throw new Error("Invalid Id , kindly check");
-        }
-      }
-    }
+    ref: "User"
   }],
   messages : [messageSchema]
 })
