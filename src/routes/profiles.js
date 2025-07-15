@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const { authUser } = require("../middleware/auth");
 const { validateUpdateData , validateUpdatePasswordData } = require("../utils/validate");
-const { id } = require("date-fns/locale");
 
 
 profileRouter.get("/profile/view" ,authUser , async (req,res)=>{
