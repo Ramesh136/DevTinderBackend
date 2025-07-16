@@ -4,7 +4,7 @@ const { authUser } = require("../middleware/auth");
 const User = require("../models/users");
 const ConnectionRequest = require("../models/connectionRequest");
 require('dotenv').config();
-const sendEmail = require('../utils/sendEmail');
+// const sendEmail = require('../utils/sendEmail');
 
 requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
   try{
@@ -49,7 +49,7 @@ requestRouter.post("/request/:status/:toUserId", authUser ,async (req,res)=>{
 
     const message = status === "interested" ? `${fromUser.firstName} is interested in ${toUser.firstName}` : `${fromUser.firstName} is not interested in ${toUser.firstName}`;
     // const response = await sendEmail.run(message , "Request Notification");
-    console.log(response)
+    // console.log(response)
     res.json({
       message: message
     });
@@ -94,8 +94,8 @@ requestRouter.post("/review/:status/:requestId" , authUser , async (req,res)=>{
       message = `You have rejected ${requestedConnection.fromId.firstName} ${requestedConnection.fromId.lastName}`;
     }
 
-    const response = await sendEmail.run(message , "Review Notification");
-    console.log(response)
+    // const response = await sendEmail.run(message , "Review Notification");
+    // console.log(response)
 
     res.json({
       data : message
