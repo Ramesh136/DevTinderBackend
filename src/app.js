@@ -18,7 +18,7 @@ const io = initializeSocket(server);
 require("../src/utils/cronjob");
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://dev-tinder-wine.vercel.app",
   credentials: true,
 }));
 
