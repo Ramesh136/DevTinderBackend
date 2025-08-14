@@ -29,7 +29,12 @@ authRouter.post("/signup", async (req, res) => {
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
     if (token) {
-      res.cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) });
+      res.cookie("token", token, { 
+        expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: true,
+        secure: true, // use false ONLY for local dev without HTTPS
+        sameSite: 'none'
+       });
     }
     res.json({
       user: {
@@ -63,7 +68,12 @@ authRouter.post("/login", async (req, res) => {
       // creating a jwt token , on valid password
       const token = await user.getJWT();
       if (token) {
-        res.cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) });
+        res.cookie("token", token, { 
+          expires: new Date(Date.now() + 8 * 3600000),
+          httpOnly: true,
+          secure: true, // use false ONLY for local dev without HTTPS
+          sameSite: 'none'
+        });
       }
       res.json({
         user: {
@@ -89,7 +99,10 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.post("/logout", (req, res) => {
   res.cookie("token", null, {
-    expires: new Date(Date.now())
+    expires: new Date(Date.now()),
+    httpOnly: true,
+    secure: true, // use false ONLY for local dev without HTTPS
+    sameSite: 'none'
   });
   res.send("User Logged out successfull");
 })
