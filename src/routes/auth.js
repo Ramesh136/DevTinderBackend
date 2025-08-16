@@ -28,6 +28,7 @@ authRouter.post("/signup", async (req, res) => {
     })
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
+    console.log("token",token);
     if (token) {
       res.cookie("token", token, { 
         expires: new Date(Date.now() + 8 * 3600000),
@@ -67,6 +68,7 @@ authRouter.post("/login", async (req, res) => {
     if (isPasswordValid) {
       // creating a jwt token , on valid password
       const token = await user.getJWT();
+      console.log("token",token);
       if (token) {
         res.cookie("token", token, { 
           expires: new Date(Date.now() + 8 * 3600000),
