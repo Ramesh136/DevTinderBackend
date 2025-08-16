@@ -31,6 +31,7 @@ authRouter.post("/signup", async (req, res) => {
     if (token) {
       res.cookie("token", token, { 
         expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: true,
         secure: true, // use false ONLY for local dev without HTTPS
         sameSite: 'none'
        });
@@ -69,6 +70,7 @@ authRouter.post("/login", async (req, res) => {
       if (token) {
         res.cookie("token", token, { 
           expires: new Date(Date.now() + 8 * 3600000),
+          httpOnly: true,
           secure: true, // use false ONLY for local dev without HTTPS
           sameSite: 'none'
         });
@@ -98,6 +100,7 @@ authRouter.post("/login", async (req, res) => {
 authRouter.post("/logout", (req, res) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
+    httpOnly: true,
     secure: true, // use false ONLY for local dev without HTTPS
     sameSite: 'none'
   });
