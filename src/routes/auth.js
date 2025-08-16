@@ -76,6 +76,7 @@ authRouter.post("/login", async (req, res) => {
           secure: true, // use false ONLY for local dev without HTTPS
           sameSite: 'none'
         });
+        console.log("Set-Cookie header:", res.getHeaders()["set-cookie"]);
       }
       res.json({
         user: {
